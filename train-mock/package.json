@@ -1,0 +1,17 @@
+{
+  "name": "train-mock",
+  "version": "1.0.0",
+  "description": "mock express.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "keywords": [
+    "mock"
+  ],
+  "author": "szy0syz",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.0"
+  }
+}
