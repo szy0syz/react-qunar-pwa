@@ -22,7 +22,7 @@ export default function CitySelector(props) {
     }
 
     fetchCityData();
-  }, [show, cityData, isLoading])
+  }, [show, cityData, isLoading, fetchCityData])
 
   return (
     <div className={classnames('city-selector', { hidden: !show })}>
@@ -63,5 +63,6 @@ CitySelector.propTypes = {
   show: PropTypes.bool.isRequired,
   cityData: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
-  onBack: PropTypes.func.isRequired
+  onBack: PropTypes.func.isRequired,
+  fetchCityData: PropTypes.func.isRequired,
 }
