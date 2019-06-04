@@ -17,7 +17,8 @@ import {
   exchangeFromTo,
   showCitySelector,
   hideCitySelector,
-  fetchCityData
+  fetchCityData,
+  setSelectedCity,
 } from './actions'
 
 function App(props) {
@@ -45,6 +46,7 @@ function App(props) {
     return bindActionCreators({
       onBack: hideCitySelector,
       fetchCityData,
+      onSelect: setSelectedCity,
     }, dispatch);
   }, [dispatch])
 
