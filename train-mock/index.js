@@ -15,4 +15,10 @@ app.get('/rest', (req, res) => {
   });
 })
 
+app.get('/rest/cities', (req, res) => {
+  res.json({
+    cityName: '昆明',
+  });
+})
+
 app.listen(5000, () => console.info('Server running at http://127.0.0.1:5000'));

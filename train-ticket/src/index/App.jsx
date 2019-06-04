@@ -17,6 +17,7 @@ import {
   exchangeFromTo,
   showCitySelector,
   hideCitySelector,
+  fetchCityData
 } from './actions'
 
 function App(props) {
@@ -42,7 +43,8 @@ function App(props) {
 
   const citySelectorCbs = useMemo(() => {
     return bindActionCreators({
-      onBack: hideCitySelector
+      onBack: hideCitySelector,
+      fetchCityData,
     }, dispatch);
   }, [dispatch])
 

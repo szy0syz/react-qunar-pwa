@@ -29,10 +29,10 @@ export function setIsLoadingCityData(isLoadingCityData) {
     };
 }
 
-export function setCityData(cityDate) {
+export function setCityData(cityData) {
     return {
         type: ACTION_SET_CITY_DATA,
-        payload: cityDate,
+        payload: cityData,
     };
 }
 
@@ -108,4 +108,25 @@ export function setDepartDate(departDate) {
         type: ACTION_SET_DEPART_DATE,
         payload: departDate,
     };
+}
+
+export function fetchCityData() {
+    return (dispatch, getState) => {
+        const { isLoadingCityData } = getState();
+        if (isLoadingCityData) {
+            return;
+        }
+
+        dispatch(setIsLoadingCityData(true));
+
+        fetch('/rest/cities?_' + Date.now())
+            .then(res => res.json())
+            .then(cityData => {
+                dispatch(setCityData(cityData));
+                dispatch(setIsLoadingCityData(false));
+            })
+            .catch(() => {
+                dispatch(setIsLoadingCityData(false));
+            });
+    }
 }
