@@ -116,8 +116,14 @@ export function fetchCityData() {
     if (isLoadingCityData) {
       return;
     }
-
-    const cache = JSON.parse(localStorage.getItem('city_data_cache') || '');
+    
+    let cache
+    try {
+      cache = JSON.parse( localStorage.getItem('city_data_cache') || '');
+    } catch (error) {
+      console.error(error);
+      cache = {}
+    }
 
     if (Date.now() < cache.expires) {
       dispatch(setCityData(cache.data));
