@@ -117,13 +117,7 @@ export function fetchCityData() {
       return;
     }
     
-    let cache
-    try {
-      cache = JSON.parse( localStorage.getItem('city_data_cache') || '');
-    } catch (error) {
-      console.error(error);
-      cache = {}
-    }
+    const cache = JSON.parse(localStorage.getItem('city_data_cache') || '{}');
 
     if (Date.now() < cache.expires) {
       dispatch(setCityData(cache.data));
