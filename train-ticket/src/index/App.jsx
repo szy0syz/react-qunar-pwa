@@ -5,6 +5,7 @@ import './App.css';
 
 import Header from '../common/Header.jsx';
 import CitySelector from '../common/CitySelector.jsx';
+import DateSelector from '../common/DateSelector.jsx';
 
 import HighSpeed from './HighSpeed.jsx';
 import DepartDate from './DepartDate';
@@ -19,6 +20,8 @@ import {
   hideCitySelector,
   fetchCityData,
   setSelectedCity,
+  showDateSelector,
+  hideDateSelector,
 } from './actions'
 
 function App(props) {
@@ -27,10 +30,10 @@ function App(props) {
     to,
     dispatch,
     isCitySelectorVisible,
+    isDateSelectorVisible,
     cityData,
     isLoadingCityData,
     departDate,
-    showDateSelector,
   } = props;
 
   const onBack = useCallback(() => {
@@ -49,13 +52,18 @@ function App(props) {
       onBack: hideCitySelector,
       fetchCityData,
       onSelect: setSelectedCity,
-
     }, dispatch);
-  }, [dispatch])
+  }, [dispatch]);
 
   const departDateCbs = useMemo(() => {
     return bindActionCreators({
       onClick: showDateSelector,
+    }, dispatch);
+  }, [dispatch]);
+
+  const dateSelectorCbs = useMemo(() => {
+    return bindActionCreators({
+      onBack: hideDateSelector,
     }, dispatch);
   }, [dispatch]);
 
@@ -85,6 +93,10 @@ function App(props) {
         cityData={cityData}
         isLoading={isLoadingCityData}
         {...citySelectorCbs}
+      />
+      <DateSelector
+        show={isDateSelectorVisible}
+        {...dateSelectorCbs}
       />
     </div>
   )
