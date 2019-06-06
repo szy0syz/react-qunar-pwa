@@ -29,6 +29,8 @@ function App(props) {
     isCitySelectorVisible,
     cityData,
     isLoadingCityData,
+    departDate,
+    showDateSelector,
   } = props;
 
   const onBack = useCallback(() => {
@@ -47,8 +49,15 @@ function App(props) {
       onBack: hideCitySelector,
       fetchCityData,
       onSelect: setSelectedCity,
+
     }, dispatch);
   }, [dispatch])
+
+  const departDateCbs = useMemo(() => {
+    return bindActionCreators({
+      onClick: showDateSelector,
+    }, dispatch);
+  }, [dispatch]);
 
   return (
     <div>
@@ -63,8 +72,11 @@ function App(props) {
           from={from}
           to={to}
           {...cbs}
-        ></Journey>
-        <DepartDate></DepartDate>
+        />
+        <DepartDate
+          time={departDate}
+          {...departDateCbs}
+        />
         <HighSpeed></HighSpeed>
         <Submit></Submit>
       </form>
