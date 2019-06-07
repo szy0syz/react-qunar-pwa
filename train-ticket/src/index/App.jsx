@@ -96,7 +96,7 @@ function App(props) {
         <Header title="火车票" onBack={onBack}></Header>
       </div>
       <form
-        action="/"
+        action="./query.html"
         className="form"
       >
         <Journey
