@@ -6,6 +6,7 @@ import './App.css';
 import Header from '../common/Header.jsx';
 import CitySelector from '../common/CitySelector.jsx';
 import DateSelector from '../common/DateSelector.jsx';
+import { h0 } from '../common/fp.js';
 
 import HighSpeed from './HighSpeed.jsx';
 import DepartDate from './DepartDate';
@@ -22,6 +23,7 @@ import {
   setSelectedCity,
   showDateSelector,
   hideDateSelector,
+  setDepartDate,
 } from './actions'
 
 function App(props) {
@@ -67,6 +69,19 @@ function App(props) {
     }, dispatch);
   }, [dispatch]);
 
+  const onSelectDate = useCallback((day) => {
+    if (!day) {
+      return;
+    }
+
+    if (day < h0()) {
+      return;
+    }
+
+    dispatch(setDepartDate(day));
+    dispatch(hideDateSelector())
+  }, [dispatch]);
+
   return (
     <div>
       <div className="header-wrapper">
@@ -97,6 +112,7 @@ function App(props) {
       <DateSelector
         show={isDateSelectorVisible}
         {...dateSelectorCbs}
+        onSelect={onSelectDate}
       />
     </div>
   )
