@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import URI from 'urijs';
 import dayjs from 'dayjs';
 
+import useNav from '../common/useNav';
 import Header from '../common/Header.jsx';
 import Nav from '../common/Nav.jsx';
 import List from './List.jsx';
@@ -22,6 +23,9 @@ import {
   setTrainTypes,
   setDepartStations,
   setArriveStations,
+
+  prevDate, // 出发日期减一天
+  nextDate, // 出发日期加一天
 
 } from './actions';
 
@@ -138,6 +142,13 @@ function App(props) {
     window.history.back();
   }, []);
 
+  const {
+    isPrevDisabled,
+    isNextDisabled,
+    prev,
+    next,
+  } = useNav(departDate, dispatch, prevDate, nextDate);
+
   if (!searchParsed) { return null; }
 
   return (
@@ -145,7 +156,13 @@ function App(props) {
       <div className="header-wrapper">
         <Header title={`${from} → ${to}`} onBack={onBack} />
       </div>
-      <Nav />
+      <Nav
+        date={departDate}
+        isPrevDisabled={isPrevDisabled}
+        isNextDisabled={isNextDisabled}
+        prev={prev}
+        next={next}
+      />
       <List />
       <Bottom />
     </div>
