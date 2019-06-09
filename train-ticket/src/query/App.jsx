@@ -18,6 +18,10 @@ function App(props) {
 }
 
 export default connect(
-  function mapStateToProps(state) {},
-  function mapDispatchToProps(dispatch) {}
+  function mapStateToProps(state) {
+    return state;
+  },
+  function mapDispatchToProps(dispatch) {
+    return { dispatch };
+  }
 )(App);

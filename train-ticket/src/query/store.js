@@ -8,7 +8,7 @@ import { h0 } from '../common/fp.js';
 import { ORDER_DEPART } from './constant.js';
 
 import reducers from './reducers';
-import thunk from 'react-thunk';
+import thunk from 'redux-thunk';
 
 export default createStore(
   combineReducers(reducers),
