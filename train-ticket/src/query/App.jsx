@@ -126,7 +126,6 @@ function App(props) {
         dispatch(setDepartStations(depStation));
         dispatch(setArriveStations(arrStation));
       })
-
   }, [
       from,
       to,
@@ -166,7 +165,7 @@ function App(props) {
   }, []);
 
   if (!searchParsed) { return null; }
-  console.log('~~~~GGGGGG~~~orderType~!!!',orderType)
+
   return (
     <div>
       <div className="header-wrapper">
@@ -182,7 +181,7 @@ function App(props) {
       <List list={trainList} />
       <Bottom
         highSpeed={highSpeed}
-        ordertype={orderType}
+        orderType={orderType}
         onlyTickets={onlyTickets}
         isFiltersVisible={isFiltersVisible}
         {...bottomCbs}
