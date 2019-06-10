@@ -66,6 +66,7 @@ export function setTrainList(trainList) {
   };
 }
 export function toggleOrderType() {
+  console.log('~~~~~toggleOrderType')
   return (dispatch, getState) => {
       const { orderType } = getState();
       if (orderType === ORDER_DEPART) {
