@@ -33,6 +33,7 @@ import './App.css';
 
 function App(props) {
   const {
+    trainList,
     from,
     to,
     departDate,
@@ -163,7 +164,7 @@ function App(props) {
         prev={prev}
         next={next}
       />
-      <List />
+      <List list={trainList} />
       <Bottom />
     </div>
   )
