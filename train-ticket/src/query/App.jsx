@@ -18,21 +18,25 @@ import {
   setDepartDate,
   setHighSpeed,
   setSearchParsed,
-
   setTrainList,
   setTicketTypes,
   setTrainTypes,
   setDepartStations,
   setArriveStations,
-
   prevDate, // 出发日期减一天
   nextDate, // 出发日期加一天
-
   toggleOrderType,
   toggleHighSpeed,
   toggleOnlyTickets,
   toggleIsFiltersVisible,
-
+  setCheckedTicketTypes,
+  setCheckedTrainTypes,
+  setCheckedDepartStations,
+  setCheckedArriveStations,
+  setDepartTimeStart,
+  setDepartTimeEnd,
+  setArriveTimeStart,
+  setArriveTimeEnd
 } from './actions';
 
 import './App.css';
@@ -49,6 +53,7 @@ function App(props) {
     orderType,
     onlyTickets,
     isFiltersVisible,
+
     ticketTypes,
     trainTypes,
     departStations,
@@ -60,19 +65,14 @@ function App(props) {
     departTimeStart,
     departTimeEnd,
     arriveTimeStart,
-    arriveTimeEnd,
+    arriveTimeEnd
   } = props;
 
   // 副作用：设置解析到的uri
   useEffect(() => {
     const queries = URI.parseQuery(window.location.search);
 
-    const {
-      from,
-      to,
-      date,
-      highSpeed,
-    } = queries;
+    const { from, to, date, highSpeed } = queries;
 
     dispatch(setFrom(from));
     dispatch(setTo(to));
@@ -84,7 +84,9 @@ function App(props) {
 
   // 副作用：根据获取的参数 拉取数据
   useEffect(() => {
-    if (!searchParsed) { return; }
+    if (!searchParsed) {
+      return;
+    }
 
     const url = new URI('/rest/query')
       .setSearch('from', from)
@@ -95,8 +97,14 @@ function App(props) {
       .setSearch('onlyTickets', onlyTickets)
       .setSearch('checkedTicketTypes', Object.keys(checkedTicketTypes).join())
       .setSearch('checkedTrainTypes', Object.keys(checkedTrainTypes).join())
-      .setSearch('checkedDepartStations', Object.keys(checkedDepartStations).join())
-      .setSearch('checkedArriveStations', Object.keys(checkedArriveStations).join())
+      .setSearch(
+        'checkedDepartStations',
+        Object.keys(checkedDepartStations).join()
+      )
+      .setSearch(
+        'checkedArriveStations',
+        Object.keys(checkedArriveStations).join()
+      )
       .setSearch('departTimeStart', departTimeStart)
       .setSearch('departTimeEnd', departTimeEnd)
       .setSearch('arriveTimeStart', arriveTimeStart)
@@ -110,14 +118,9 @@ function App(props) {
           dataMap: {
             directTrainInfo: {
               trains,
-              filter: {
-                ticketType,
-                trainType,
-                depStation,
-                arrStation,
-              },
-            },
-          },
+              filter: { ticketType, trainType, depStation, arrStation }
+            }
+          }
         } = res;
 
         dispatch(setTrainList(trains));
@@ -125,46 +128,59 @@ function App(props) {
         dispatch(setTrainTypes(trainType));
         dispatch(setDepartStations(depStation));
         dispatch(setArriveStations(arrStation));
-      })
+      });
   }, [
-      from,
-      to,
-      departDate,
-      highSpeed,
-      searchParsed,
-      orderType,
-      onlyTickets,
-      checkedTicketTypes,
-      checkedTrainTypes,
-      checkedDepartStations,
-      checkedArriveStations,
-      departTimeStart,
-      departTimeEnd,
-      arriveTimeStart,
-      arriveTimeEnd,
-    ]);
+    from,
+    to,
+    departDate,
+    highSpeed,
+    searchParsed,
+    orderType,
+    onlyTickets,
+    checkedTicketTypes,
+    checkedTrainTypes,
+    checkedDepartStations,
+    checkedArriveStations,
+    departTimeStart,
+    departTimeEnd,
+    arriveTimeStart,
+    arriveTimeEnd
+  ]);
 
   const onBack = useCallback(() => {
     window.history.back();
   }, []);
 
-  const {
-    isPrevDisabled,
-    isNextDisabled,
-    prev,
-    next,
-  } = useNav(departDate, dispatch, prevDate, nextDate);
+  const { isPrevDisabled, isNextDisabled, prev, next } = useNav(
+    departDate,
+    dispatch,
+    prevDate,
+    nextDate
+  );
 
   const bottomCbs = useMemo(() => {
-    return bindActionCreators({
-      toggleOrderType,
-      toggleHighSpeed,
-      toggleOnlyTickets,
-      toggleIsFiltersVisible,
-    }, dispatch);
+    return bindActionCreators(
+      {
+        toggleOrderType,
+        toggleHighSpeed,
+        toggleOnlyTickets,
+        toggleIsFiltersVisible,
+        setCheckedTicketTypes,
+        setCheckedTrainTypes,
+        setCheckedDepartStations,
+        setCheckedArriveStations,
+        setDepartTimeStart,
+        setDepartTimeEnd,
+        setArriveTimeStart,
+        setArriveTimeEnd
+      },
+      dispatch
+    );
   }, []);
 
-  if (!searchParsed) { return null; }
+  if (!searchParsed) {
+    return null;
+  }
 
   return (
     <div>
@@ -184,10 +200,22 @@ function App(props) {
         orderType={orderType}
         onlyTickets={onlyTickets}
         isFiltersVisible={isFiltersVisible}
+        ticketTypes={ticketTypes}
+        trainTypes={trainTypes}
+        departStations={departStations}
+        arriveStations={arriveStations}
+        checkedTicketTypes={checkedTicketTypes}
+        checkedTrainTypes={checkedTrainTypes}
+        checkedDepartStations={checkedDepartStations}
+        checkedArriveStations={checkedArriveStations}
+        departTimeStart={departTimeStart}
+        departTimeEnd={departTimeEnd}
+        arriveTimeStart={arriveTimeStart}
+        arriveTimeEnd={arriveTimeEnd}
         {...bottomCbs}
       />
     </div>
-  )
+  );
 }
 
 export default connect(
