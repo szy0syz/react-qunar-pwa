@@ -80,7 +80,7 @@ function App(props) {
     dispatch(setHighSpeed(highSpeed === 'true'));
 
     dispatch(setSearchParsed(true));
-  }, []);
+  }, [dispatch]);
 
   // 副作用：根据获取的参数 拉取数据
   useEffect(() => {
@@ -144,7 +144,8 @@ function App(props) {
     departTimeStart,
     departTimeEnd,
     arriveTimeStart,
-    arriveTimeEnd
+    arriveTimeEnd,
+    dispatch,
   ]);
 
   const onBack = useCallback(() => {
@@ -176,7 +177,7 @@ function App(props) {
       },
       dispatch
     );
-  }, []);
+  }, [dispatch]);
 
   if (!searchParsed) {
     return null;
